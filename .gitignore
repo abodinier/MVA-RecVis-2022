@@ -13,5 +13,6 @@ experiment_*
 *.pt
 *.json
 *.jpg
-data/
-data_crop/
+
+/data
+/data_crop
