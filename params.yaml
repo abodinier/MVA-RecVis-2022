@@ -1,7 +1,7 @@
 train:
-  exp-name: "resnet"
+  exp-name: "Resnet_on_crops"
   nclasses: 20
-  data: "data"
+  data: "data_crop"
   image-size: 299
   data-augmentation: 1
   model-name: "resnet"

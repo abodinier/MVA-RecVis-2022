@@ -3,6 +3,7 @@ stages:
     cmd: python src/main.py ${train}
     deps:
     - data
+    - data_crop
     - src
     params:
     - params.yaml:

@@ -1,0 +1,5 @@
+outs:
+- md5: fd23cd7eb49a363a5d7e25f3c2164c70.dir
+  size: 44457278
+  nfiles: 1702
+  path: data_crop
