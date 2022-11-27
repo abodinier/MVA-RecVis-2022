@@ -1,0 +1,14 @@
+.env
+.vscode
+.DS_Store
+
+.ipynb_checkpoints
+__pycache__
+
+data/
+tensorboard/
+experiment_*
+
+*.csv
+*.pt
+*.json
