@@ -1,3 +1,4 @@
+import timm
 import torch
 import torch.nn as nn
 from torchvision import models
@@ -158,25 +159,24 @@ class VGG(nn.Module):
 
 
 class ViT(nn.Module):
-    def __init__(
-        self,
-        nclasses=20,
-        model_name_or_path="google/vit-base-patch16-224-in21k",
-        **kwargs,
-    ):
+    def __init__(self, nclasses=20, **kwargs):
         super(ViT, self).__init__()
-        self.nclasses = nclasses
+        
+        self.model = timm.create_model('vit_large_patch16_384', pretrained=True)
 
-        self.feature_extractor = ViTFeatureExtractor.from_pretrained(
-            "google/vit-base-patch16-224"
-        )
-        self.model = ViTForImageClassification.from_pretrained(
-            "google/vit-base-patch16-224"
-        )
+        if kwargs.get("freeze_weights", False):
+            freeze_weights_model(self.model)
+
+        for i in [-1,-2, -3]:
+            for param in self.model.blocks[i].parameters():
+                param.requires_grad = True  
+
+        self.model.head = nn.LazyLinear(kwargs.get("fc_dim", 100))
+        self.dropout = nn.Dropout(kwargs.get("dropout"))
+        self.relu = nn.ReLU()
         self.fc = nn.LazyLinear(nclasses)
-
-    def forward_from_pil(self, image):
-        inputs = self.feature_extractor(images=image, return_tensors="pt")
-        outputs = self.model(**inputs)
-        logits = outputs.logits
-        return logits
+    
+    def forward(self, x):
+        x = self.dropout(self.relu(self.model(x)))
+        x = self.fc(x)
+        return x
