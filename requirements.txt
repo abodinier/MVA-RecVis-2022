@@ -3,3 +3,5 @@ torchvision
 tqdm
 pytorch-lightning
 matplotlib
+timm
+# pip install -e detectron2 at 
