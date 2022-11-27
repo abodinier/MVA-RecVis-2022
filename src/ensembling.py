@@ -12,7 +12,7 @@ class Averaging:
         self.weights = weights
     
     def __call__(self, x: torch.tensor) -> torch.tensor:
-        outputs = torch.zeros((self.n, x.size(0), self.nclasses))
+        outputs = torch.zeros((self.n_models, x.size(0), self.nclasses))
         
         if self.weights is None:
             for i, model in enumerate(self.models):
@@ -23,6 +23,8 @@ class Averaging:
                 outputs[i] = w * model(x)
             outputs = outputs.sum(dim=0)
             outputs /= self.weights.sum()
+        
+        return outputs
     
     def predict(self, x: torch.tensor) -> torch.tensor:
         outputs = self.__call__(x)
