@@ -198,8 +198,16 @@ metrics["val"] = test_metrics.get_metrics()
 
 with open(METRICS / "metrics.json", "w") as f:
     json.dump(metrics, f)
+# DVC
+with open("metrics.json", "w") as f:
+    json.dump(metrics, f)
 
 with open(PLOTS / "confusion.csv", "w") as f:
+    f.write("actual,predicted\n")
+    for actual, preds in zip(actuals, predicteds):
+        f.write(f"{actual},{preds}\n")
+# DVC
+with open("confusion.csv", "w") as f:
     f.write("actual,predicted\n")
     for actual, preds in zip(actuals, predicteds):
         f.write(f"{actual},{preds}\n")

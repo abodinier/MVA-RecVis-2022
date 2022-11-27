@@ -1,0 +1,20 @@
+train:
+  exp-name: "resnet"
+  nclasses: 20
+  data: "data"
+  image-size: 299
+  data-augmentation: 1
+  model-name: "resnet"
+  version: 152
+  batch-norm: 0
+  epochs: 20
+  batch-size: 16
+  optim-name: "sgd"
+  lr: 0.001
+  lr-gamma: 0.5
+  lr-step: 15
+  seed: 0
+  dropout: 0
+  fc-dim: 50
+  freeze-weights: 0
+  momentum: 0.9

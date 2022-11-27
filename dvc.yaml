@@ -1,0 +1,17 @@
+stages:
+  train:
+    cmd: python src/main.py ${train}
+    deps:
+    - data
+    - src
+    params:
+    - params.yaml:
+    metrics:
+      - metrics.json:
+          cache: false
+    plots:
+      - confusion.csv:
+          # Configure template and axes.
+          template: confusion
+          x: actual
+          y: predicted
