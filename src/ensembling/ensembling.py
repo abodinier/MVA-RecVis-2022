@@ -50,5 +50,28 @@ class Voting:
 
 
 class Stacking:
-    pass
+    def __init__(self, bag_of_models, stacking_model, **kwargs) -> None:
+        self.bag_of_models = bag_of_models
+        self.n_models = len(bag_of_models)
+        self.nclasses = bag_of_models[0].nclasses
+        self.stacing_model = stacking_model
+    
+    def prepare_x_bag(self, X):
+        for i, model in enumerate(self.bag_of_models):
+            if i == 0:
+                x_bag = model(X).detach().numpy()
+            else:
+                x_bag = np.hstack([x_bag, model(X).detach().numpy()])
+        
+        return x_bag
+    
+    def fit(self, X, y):
+        x_bag = self.prepare_x_bag(X)
+        
+        self.stacing_model.fit(x_bag, y.detach().numpy())
+    
+    def predict(self, X):
+        x_bag = self.prepare_x_bag(X)
+        
+        return self.stacing_model.predict(x_bag)
 

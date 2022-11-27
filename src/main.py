@@ -1,6 +1,7 @@
 import json
 import torch
 import argparse
+import warnings
 from pathlib import Path
 from datetime import datetime
 import torch.optim as optim
@@ -15,6 +16,7 @@ from training import Trainer, get_optim
 from data import get_data_transform
 from metrics import Metrics
 
+warnings.simplefilter('ignore')
 
 # Training settings
 parser = argparse.ArgumentParser(description="RecVis A3 training script")

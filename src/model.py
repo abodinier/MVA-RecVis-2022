@@ -1,3 +1,4 @@
+import json
 import timm
 import torch
 import torch.nn as nn
@@ -32,6 +33,18 @@ def get_model(**kwargs):
         return Inception(**kwargs)
     if kwargs["model_name"].lower() == "vit":
         return ViT(**kwargs)
+
+
+def load_from_exp(exp_dir):
+    params = json.load(
+        open(exp_dir/"models/parameters.json", "r")
+    )
+    model = get_model(**params)
+    model.load_state_dict(
+        torch.load(exp_dir/"models/ckp_0.pt")["model"]
+    )
+    model.eval()
+    return model
 
 
 class CNN(nn.Module):
@@ -161,6 +174,7 @@ class VGG(nn.Module):
 class ViT(nn.Module):
     def __init__(self, nclasses=20, **kwargs):
         super(ViT, self).__init__()
+        self.nclasses = nclasses
         
         self.model = timm.create_model('vit_large_patch16_384', pretrained=True)
 
