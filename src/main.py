@@ -130,7 +130,7 @@ torch.manual_seed(args.seed)
 
 timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
 exp_name = args.exp_name if args.exp_name != "" else "experiment"
-EXPERIMENT = Path(f"{exp_name}_{timestamp}")
+EXPERIMENT = Path(f"EXPERIMENTS/{exp_name}_{timestamp}")
 METRICS = EXPERIMENT / "metrics/"
 PLOTS = EXPERIMENT / "plots/"
 MODELS = EXPERIMENT / "models/"
