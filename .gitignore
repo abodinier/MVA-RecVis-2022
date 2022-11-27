@@ -12,4 +12,5 @@ experiment_*
 *.csv
 *.pt
 *.json
+*.jpg
 /data
