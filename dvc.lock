@@ -1,0 +1,49 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python src/main.py --exp-name 'ViT-crops' --nclasses 20 --data 'data_crop'
+      --image-size 384 --data-augmentation 1 --model-name 'vit' --version 0 --batch-norm
+      0 --epochs 20 --batch-size 16 --optim-name 'sgd' --lr 0.001 --lr-gamma 0.5 --lr-step
+      15 --seed 0 --dropout 0 --fc-dim 50 --freeze-weights 1 --momentum 0.9
+    deps:
+    - path: data
+      md5: 8d05bbee5460e9e365bc6ef11547684c.dir
+      size: 198387151
+      nfiles: 1704
+    - path: data_crop
+      md5: fd23cd7eb49a363a5d7e25f3c2164c70.dir
+      size: 44457278
+      nfiles: 1702
+    - path: src
+      md5: 2ca8fa4158190bd39d2f57bde182a441.dir
+      size: 59629
+      nfiles: 22
+    params:
+      params.yaml:
+        train:
+          exp-name: ViT-crops
+          nclasses: 20
+          data: data_crop
+          image-size: 384
+          data-augmentation: 1
+          model-name: vit
+          version: 0
+          batch-norm: 0
+          epochs: 20
+          batch-size: 16
+          optim-name: sgd
+          lr: 0.001
+          lr-gamma: 0.5
+          lr-step: 15
+          seed: 0
+          dropout: 0
+          fc-dim: 50
+          freeze-weights: 1
+          momentum: 0.9
+    outs:
+    - path: confusion.csv
+      md5: e19d491cbad0bef3934c8ecf20a2175a
+      size: 556
+    - path: metrics.json
+      md5: 1cd2f2c87ef2602173cc1c8b5a7ad1bc
+      size: 254

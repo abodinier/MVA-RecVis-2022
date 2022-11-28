@@ -1,13 +1,13 @@
 train:
-  exp-name: "Resnet_on_crops"
+  exp-name: "ViT"
   nclasses: 20
-  data: "data_crop"
-  image-size: 299
+  data: "data"
+  image-size: 384
   data-augmentation: 1
-  model-name: "resnet"
-  version: 152
+  model-name: "vit"
+  version: 0
   batch-norm: 0
-  epochs: 20
+  epochs: 10
   batch-size: 16
   optim-name: "sgd"
   lr: 0.001
@@ -16,5 +16,5 @@ train:
   seed: 0
   dropout: 0
   fc-dim: 50
-  freeze-weights: 0
+  freeze-weights: 1
   momentum: 0.9

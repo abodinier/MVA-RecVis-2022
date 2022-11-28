@@ -12,10 +12,11 @@ from ensembling import Averaging, Voting, Stacking
 
 nclasses = 20
 
-resnet = load_from_exp(Path("EXPERIMENTS/resnet_2022-11-27-00-56"))
-vgg = load_from_exp(Path("EXPERIMENTS/vgg_2022-11-27-00-55"))
-inception = load_from_exp(Path("EXPERIMENTS/inception_2022-11-27-00-54"))
-bag_of_models = Averaging(models=[resnet, vgg, inception], weights=torch.tensor([1, 1, 1]))
+resnet = load_from_exp(Path("../EXPERIMENTS/resnet_2022-11-27-00-56"))
+vgg = load_from_exp(Path("../EXPERIMENTS/vgg_2022-11-27-00-55"))
+inception = load_from_exp(Path("../EXPERIMENTS/inception_2022-11-27-00-54"))
+vit = load_from_exp(Path("../EXPERIMENTS/ViT_2022-11-27-19-15"))
+bag_of_models = Averaging(models=[resnet, vgg, inception, vit], weights=torch.tensor([2, 1, 1, 3]))
 
 
 test_dir = "../data/test_images/mistery_category"
@@ -33,7 +34,7 @@ output_file.write("Id,Category\n")
 for f in tqdm(os.listdir(test_dir)):
     if "jpg" in f:
         data = data_transforms(pil_loader(test_dir + "/" + f))
-        data = data.view(1, data.size(0).size(1), data.size(2))
+        data = data.view(1, data.size(0), data.size(1), data.size(2))
         output = bag_of_models(data)
         pred = output.argmax().item()
         output_file.write("%s,%d\n" % (f[:-4], pred))

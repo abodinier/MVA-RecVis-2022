@@ -53,9 +53,27 @@ def detect(img):
         
     return (left, top, right, bottom)
 
-def crop(img, bbox):
+def crop(img, bbox, augmentation_factor = 0.05):
+    rows, columns, channels = img.shape
+    
     left, top, right, bottom = bbox
-    img_crop = img[top:bottom, left:right]
+    
+    center_vertical = (top+bottom)/2
+    center_horizontal = (left+right)/2
+    
+    max_edge = max(bottom-top, right-left)
+    size = (1 + augmentation_factor) * max_edge
+    
+    new_top, new_bottom = center_vertical - size/2, center_vertical + size/2
+    new_left, new_right = center_horizontal - size/2, center_horizontal + size/2, columns
+    
+    center_vertical = center_vertical - min(new_top, 0) + min(rows - new_bottom, 0)
+    center_horizontal = center_vertical - min(new_left, 0) + min(rows - new_right, 0)
+    
+    new_top, new_bottom = center_vertical - size/2, center_vertical + size/2
+    new_left, new_right = center_horizontal - size/2, center_horizontal + size/2, columns
+    
+    img_crop = img[new_top:new_bottom, new_left:new_right]
     return img_crop
 
 def extract_one(src_path, dst_path):
